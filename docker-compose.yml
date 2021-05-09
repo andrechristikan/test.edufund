@@ -3,16 +3,18 @@ services:
     edufund-db:
         image: "postgres"
         container_name: edufund-db
-        networks:
-            - edufund-network
         env_file:
             - database.env
         volumes:
             - database-data:/var/lib/postgresql/data/
+        ports:
+            - "5432:5432"
+        networks:
+            - edufund-network
     edufund-test:
         build:
             context: .
-            dockerfile: dockerfile.golang
+            dockerfile: ./dockerfile
         container_name: edufund-test
         depends_on:
             - edufund-db
