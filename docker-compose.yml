@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+    edufund-db:
+        image: "postgres"
+        container_name: edufund-db
+        networks:
+            - edufund-network
+        env_file:
+            - database.env
+        volumes:
+            - database-data:/var/lib/postgresql/data/
+    edufund-test:
+        build:
+            context: .
+            dockerfile: dockerfile.golang
+        container_name: edufund-test
+        depends_on:
+            - edufund-db
+        ports:
+            - "8080:8080"
+        networks:
+            - edufund-network
+networks:
+    edufund-network:
+        driver: bridge
+volumes:
+    database-data:
+        driver: local

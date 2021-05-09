@@ -13,8 +13,11 @@ RUN go mod download
 
 COPY . .
 
+# Rename .env
+RUN mv /app/test.edufund/.env.example /app/test.edufund/.env
+
 # Build the Go app
-RUN go build -o ./out/test.edufund .
+RUN go build -o /app/test.edufund/out/test.edufund main.go
 
 
 # This container exposes port 8080 to the outside world
